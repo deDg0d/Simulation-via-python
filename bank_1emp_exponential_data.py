@@ -9,7 +9,6 @@ for c in range(100):
      time_intervals.append (np.random.exponential(scale = 5))
      service_time.append(np.random.exponential(scale = 5))
 
-print(time_intervals,service_time)
 arrival_time= [] #arrival time
 time_service_begins= []
 time_service_ends = []
@@ -17,6 +16,7 @@ waiting_time_in_queue = []
 time_customer_spends_in_system = [] #cycle time
 Idle_time = [] #idle time
 customer_counter = time_intervals
+# print(customer_counter)
 #x is a temporary variable to sum up the time_intervals values
 #we assume that first employee will be present in the system
 #append method is used in python for adding values to a list
@@ -38,7 +38,8 @@ waiting_time_in_queue.append(0)
 #time spent for first employee will be his/her service time only because there is no queue
 time_customer_spends_in_system.append(service_time[0])
 #this for loop starts from 1 because that we calculated first items by assumptions 
-for c in range(1,len(customer_counter)): 
+for c in range(1,len(customer_counter)): #{
+
     #this if loops checks if customer would wait in line or not
     #if time that customer i entered the system was lower than previous customer(i-1)E.g. customer i   -
     #came in min 5 but customer i-1 will finish his/her job in min 6:
@@ -48,9 +49,9 @@ for c in range(1,len(customer_counter)):
         #ending time will be starting time + service time
         time_service_ends.append(time_service_begins[c] + service_time[c])
         #queue time can be determined(time he/she enter the sytem - time that previous customer fully served)
-        waiting_time_in_queue.append(abs(arrival_time[c] - time_service_ends[c-1]))
+        waiting_time_in_queue.append(time_service_ends[c-1] - arrival_time[c])
         #total time spent on system: his/her queue time + service time
-        time_customer_spends_in_system.append(waiting_time_in_queue[c] + service_time[c])
+        time_customer_spends_in_system.append(time_service_ends[c] - arrival_time[c] ) #waiting_time_in_queue[c] + service_time[c]
         #whenever there is a queue there is no rest for employee
         Idle_time.append(0)
 #this if is for customers that will not experience queue
@@ -58,7 +59,7 @@ for c in range(1,len(customer_counter)):
     else: #arrival_time[c]>time_service_ends[c-1]
         # he/she start to get served as soon as he/she enters the system
         time_service_begins.append(arrival_time[c])
-        time_service_ends.append(time_service_begins[c] + service_time[c])
+        time_service_ends.append(time_service_begins[c] + service_time[c]) #arrival_time[c] + service_time[c] ()
         #our employee waits until next customer enters
         waiting_time_in_queue.append(0)
         #time spent for customer is queue time + service time
@@ -66,21 +67,22 @@ for c in range(1,len(customer_counter)):
         # time that new customer entered - time that previous customer left the system will be rest time for employee 
         Idle_time.append(abs(time_service_begins[c] - time_service_ends[c-1])) ###cal after cal
         #no queue for customer
+#} #end of for
 
 #calculating outputs, and problem requirements
 
 average_queue_time = 0
 average_idle_time = 0
+simulation_time = time_service_ends[-1]
 #for 10 customers
-for c in range(10):
+for c in range(len(customer_counter)):
     #adding values of queue list
     average_queue_time = average_queue_time+waiting_time_in_queue[c]
     #average idle time of server
     average_idle_time = average_idle_time + Idle_time [c]
     #calculating average of above value
-average_queue_time= average_queue_time/10 #/number of customers
-average_idle_time = average_idle_time/arrival_time[-1]#/total amount of time of the system #[-1] return the last element of the array 
-print(average_idle_time)  
+average_queue_time= average_queue_time/len(arrival_time) #/number of customers
+average_idle_time = average_idle_time/simulation_time 
 #creating dataset to visualize data
 dataset = {
     'Arrival t' : arrival_time,
@@ -100,13 +102,6 @@ df = pd.DataFrame(dataset)
 df.index = np.arange(1, len(df) + 1)
 df.index.names = ['customer']
 print(df)
-
-#based on our calculation we can determine:
-#1- do we need more employee?
-#2- do we need less employees(if we had 2 or more)
-#3- how much our employee have free time in service time
-#4- is the queue time reasonable? do we need to buy chairs for customers that wait in line
-#5- is time spent on system reasonable? should wa apply changes to our system?
 
 time_intervals.sort()
 time_intervals.reverse()
