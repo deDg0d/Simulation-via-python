@@ -1,8 +1,15 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 #inputs
-time_intervals = [0,5,6,1,2,8,5,2,4,6]
-service_time = [3,2,1,5,3,4,2,1,5,3]
+
+time_intervals = []
+service_time = []
+for c in range(100):
+     time_intervals.append (np.random.exponential(scale = 5))
+     service_time.append(np.random.exponential(scale = 5))
+
+print(time_intervals,service_time)
 arrival_time= [] #arrival time
 time_service_begins= []
 time_service_ends = []
@@ -10,7 +17,6 @@ waiting_time_in_queue = []
 time_customer_spends_in_system = [] #cycle time
 Idle_time = [] #idle time
 customer_counter = time_intervals
-print(customer_counter)
 #x is a temporary variable to sum up the time_intervals values
 #we assume that first employee will be present in the system
 #append method is used in python for adding values to a list
@@ -49,7 +55,7 @@ for c in range(1,len(customer_counter)):
         Idle_time.append(0)
 #this if is for customers that will not experience queue
 #E.g. he/she enters in min 10 and last customer fully served at min 8
-    if(arrival_time[c]>time_service_ends[c-1]):
+    else: #arrival_time[c]>time_service_ends[c-1]
         # he/she start to get served as soon as he/she enters the system
         time_service_begins.append(arrival_time[c])
         time_service_ends.append(time_service_begins[c] + service_time[c])
@@ -102,6 +108,9 @@ print(df)
 #4- is the queue time reasonable? do we need to buy chairs for customers that wait in line
 #5- is time spent on system reasonable? should wa apply changes to our system?
 
-
+time_intervals.sort()
+time_intervals.reverse()
+plt.plot(time_intervals)
+plt.show()
 
 
