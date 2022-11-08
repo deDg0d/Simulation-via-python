@@ -2,13 +2,13 @@ import numpy as np
 import pandas as pd
 seed = []
 storage = 0
-storage_list = []
 consumed_seed1 = 0 #ant that consume all seeds
 consumed_seed_2 = 0 #ant that store half of the seeds
 consumed_seed_2_list = [] #just for demonstration
+storage_list = []#just for demonstration
 days = 100
 for i in range(days):
-     seed.append(np.random.exponential(scale = 2))
+     seed.append(np.random.exponential(scale = 2)) #random between 0 to 10
      seed[i] = round(seed[i])
 
 

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 #inputs
 time_intervals = [0,5,6,1,2,8,5,2,4,6]
 service_time = [3,2,1,5,3,4,2,1,5,3]

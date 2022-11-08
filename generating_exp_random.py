@@ -11,7 +11,7 @@ print(rand_uni)
 
 rand_exp = []
 for i in range(500):
-    rand_exp.append (np.random.exponential(scale = 10)) #The scale parameter = rate = 10
+    rand_exp.append (np.random.exponential(scale = 1/3)) #The scale parameter = rate = 10
     # rand_exp[i] = round(rand_exp[i]) #to save integer numbers
 
 
@@ -31,8 +31,8 @@ def exp_cdf(x,lam): #cumulative distribution function
 
 #to see the distribution shape 
 
-# rand_exp.sort()
-# rand_exp.reverse()
-# print(rand_exp)
-# plt.plot(rand_exp)
-# plt.show()
+rand_exp.sort()
+rand_exp.reverse()
+print(rand_exp)
+plt.hist(rand_exp)
+plt.show()
