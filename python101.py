@@ -200,6 +200,7 @@ df = pd.DataFrame(dataset)
 
 #reading excel file
 df = pd.read_csv('E:\\winrar\excel.csv')
+print(df)
 
 #visualizing data using matplotlib=> pip install matplotlib
 # import matplotlib.pyplot as plt
